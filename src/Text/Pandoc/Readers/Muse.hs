@@ -214,7 +214,7 @@ header = try $ do
   level <- liftM length $ many1 $ char '*'
   guard $ level <= 5
   skipSpaces
-  content <- trimInlinesF . mconcat <$> manyTill inline newline
+  content <- trimInlinesF . mconcat <$> manyTill inline (void newline <|> eof)
   attr <- registerHeader ("", [], []) (runF content defaultParserState)
   return $ B.headerWith attr level <$> content
 
