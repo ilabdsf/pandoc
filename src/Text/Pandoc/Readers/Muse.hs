@@ -43,6 +43,7 @@ module Text.Pandoc.Readers.Muse (readMuse) where
 
 import Prelude
 import Control.Monad
+import Control.Monad.Reader
 import Control.Monad.Except (throwError)
 import Data.Char (isLetter)
 import Data.Default
@@ -70,7 +71,7 @@ readMuse :: PandocMonad m
          -> Text
          -> m Pandoc
 readMuse opts s = do
-  res <- readWithM parseMuse def{ museOptions = opts } (unpack (crFilter s))
+  res <- runReaderT (readWithM parseMuse def{ museOptions = opts } (unpack (crFilter s))) def
   case res of
        Left e  -> throwError e
        Right d -> return d
@@ -103,7 +104,7 @@ defaultMuseState = MuseState { museMeta = return nullMeta
                              , museInPara = False
                              }
 
-type MuseParser = ParserT String MuseState
+type MuseParser m = ParserT String MuseState (ReaderT MuseState m)
 
 instance HasReaderOptions MuseState where
   extractReaderOptions = museOptions
