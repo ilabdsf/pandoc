@@ -793,8 +793,8 @@ anchor = try $ do
 footnote :: PandocMonad m => MuseParser m (F Inlines)
 footnote = try $ do
   ref <- noteMarker
+  notes <- asks museNotes
   return $ do
-    notes <- asksF museNotes
     case M.lookup ref notes of
       Nothing -> return $ B.str $ "[" ++ ref ++ "]"
       Just (_pos, contents) -> do
