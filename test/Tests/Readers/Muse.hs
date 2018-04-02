@@ -601,6 +601,14 @@ tests =
                     , "#anchor and ends here."
                     ] =?>
           para ("Paragraph starts here\n" <> spanWith ("anchor", [], []) mempty <> "and ends here.")
+        , "Indented anchor" =:
+          T.unlines [ " - foo"
+                    , ""
+                    , "   #bar baz"
+                    ] =?>
+          bulletList [ para "foo"
+                     , para (spanWith ("bar", [], []) mempty <> "baz")
+                     ]
         ]
       , testGroup "Footnotes"
         [ "Simple footnote" =:
