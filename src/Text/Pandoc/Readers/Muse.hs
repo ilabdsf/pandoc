@@ -215,7 +215,7 @@ parseHtmlContent tag = try $ do
   pos <- getPosition
   (TagOpen _ attr, _) <- htmlTag (~== TagOpen tag [])
   manyTill spaceChar eol
-  content <- parseBlocksTill $ try $ count (sourceColumn pos - 1) spaceChar >> endtag
+  content <- parseBlocksTill $ try $ count (sourceColumn pos - 1) spaceChar >> (eof <|> endtag)
   manyTill spaceChar eol -- closing tag must be followed by optional whitespace and newline
   return (htmlAttrToPandoc attr, content)
   where

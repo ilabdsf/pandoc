@@ -1357,7 +1357,7 @@ tests =
           , "</quote>"
           , "</verse>"
           ] =?>
-        para "<quote>" <> lineBlock [ "</quote>" ]
+        blockQuote (lineBlock [ "</quote>" ])
 
       , "Unclosed quote tag inside list" =:
         T.unlines
@@ -1366,7 +1366,7 @@ tests =
           , "   </quote>"
           , "   </verse>"
           ] =?>
-        bulletList [ para "<quote>" <> lineBlock [ "</quote>" ] ]
+        bulletList [ blockQuote $ lineBlock [ "</quote>" ] ]
 
       -- Allowing indented closing tags is dangerous,
       -- as they may terminate lists
