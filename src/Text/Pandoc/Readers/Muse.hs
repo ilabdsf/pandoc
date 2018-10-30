@@ -335,6 +335,7 @@ blockElements = (mempty <$ blankline)
             <|> playTag
             <|> verseTag
             <|> lineBlock
+            <|> gridTable
             <|> table
             <|> commentTag
 
@@ -717,6 +718,9 @@ tableParseCaption = try $ fmap MuseCaption . trimInlinesF . mconcat
   <$  many spaceChar
   <*  string "|+"
   <*> many1Till inline (try $ string "+|" *> eol)
+
+gridTable :: PandocMonad m => MuseParser m (F Blocks)
+gridTable = try $ gridTableWith parseBlocks True
 
 -- ** Inline parsers
 

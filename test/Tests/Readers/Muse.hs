@@ -976,6 +976,14 @@ tests =
             [[plain "1", plain "2", plain "3"],
              [plain "4", mempty,    plain "6"],
              [plain "7", plain "8", plain "9"]]
+        , "Grid table" =:
+          T.unlines
+            [ "+--------+"
+            , "| foobar |"
+            , "+--------+"
+	    , ""
+            ] =?>
+          table mempty [(AlignDefault, 0.1125)] [] [[plain "foobar"]]
         ]
     , testGroup "Lists"
       [ "Bullet list" =:
